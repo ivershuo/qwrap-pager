@@ -144,8 +144,9 @@
 			//html.push('</p>');
 			
 			/*可输入表单*/
+			var formHtml = '';
 			if(this.hasForm){
-				formHtml = '<form class="pager-f">';
+				formHtml += '<form class="pager-f">';
 				formHtml += '<fieldset><legend>跳转到页码</legend><p>';
 				formHtml += '第<input size="' + (this.totalPages + '').length + '" name="' + this.pn + '">页';
 				formHtml += '<button type="submit">' + this.pgFormBtn + '</button>';
