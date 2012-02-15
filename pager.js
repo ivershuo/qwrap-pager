@@ -150,8 +150,8 @@
 				formHtml += '<fieldset><legend>跳转到页码</legend><p>';
 				formHtml += '第<input size="' + (this.totalPages + '').length + '" name="' + this.pn + '">页';
 				formHtml += '<button type="submit">' + this.pgFormBtn + '</button>';
-				formHtml += '</p></fieldset></form>';				
-			}			
+				formHtml += '</p></fieldset></form>';
+			}
 			
 			html += '<p class="pager-i">';
 			this.layout.forEach(function(e){
@@ -164,7 +164,7 @@
 		},
 
 		_pnUrl : function(pn){
-			var queryObj = queryUrl(window.location.search);			
+			var queryObj = queryUrl(window.location.search);
 			if(this.qsize != undefined && this.qoffset != undefined){
 				queryObj[this.qsize] = this.size;
 				queryObj[this.qoffset] = this.size * pn;
@@ -187,7 +187,7 @@
 			var needRetouch = ['first', 'back', 'next', 'last'];
 			var ret = true;
 			var t = needRetouch.forEach(function(v){
-				if(W(e.target).hasClass(instance.wrapEls[v]) || W(e.target).parentNode('a').hasClass(instance.wrapEls[v])){
+				if(W(e.target).hasClass(instance.wrapEls[v]) || (W(e.target).parentNode('a').length && W(e.target).parentNode('a').hasClass(instance.wrapEls[v]))){
 					if(!instance.fire(v, {i : pn})){
 						e.preventDefault();
 						ret = false;
@@ -207,7 +207,7 @@
 					var pn = Math.ceil(searchObj[instance.qoffset]/searchObj[instance.qsize]);
 				} else {
 					var pn = searchObj[instance.pn] - instance.startPn;
-				}				
+				}
 				if(instance._retouch_action(e, pn)){
 					if(!instance.fire('go', {i : pn})){
 						e.preventDefault();
@@ -224,12 +224,14 @@
 			});
 		},
 
-		render : function(){
-			if(W('.pager', this.wrapEl).length == 0){
+		render : function(rerender){
+			if(rerender) {
+				this.wrapEl.html(this._createHtml());
+			} else if(W('.pagers', this.wrapEl).length == 0){
 				W(this.pagers).html(this._createHtml());
 				this.wrapEl.appendChild(this.pagers);
 			}
-			this._action();			
+			this._action();
 		},		
 		
 		/*
